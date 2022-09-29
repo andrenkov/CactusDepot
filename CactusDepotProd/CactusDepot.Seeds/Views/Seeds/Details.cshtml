@@ -1,0 +1,120 @@
+﻿@model CactusDepot.Shared.Models.Seeds.CactusSeed
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> signInManager;
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Seed</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.SeedName)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.SeedName)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Parent1CatalogNum)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Parent1CatalogNum)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Parent2CatalogNum)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Parent2CatalogNum)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.SeedNote)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.SeedNote)
+        </dd>
+        @if (signInManager.IsSignedIn(User) && (User.IsInRole("Administrator") || User.IsInRole("SuperAdmin") || User.IsInRole("Manager")))
+        {
+            <dt class = "col-sm-2">
+                @Html.DisplayNameFor(model => model.SeedCollectedDate)
+            </dt>
+            <dd class = "col-sm-10">
+                @Html.DisplayFor(model => model.SeedCollectedDate)
+            </dd>
+
+            <dt class = "col-sm-2">
+                @Html.DisplayNameFor(model => model.SeedSource)
+            </dt>
+            <dd class = "col-sm-10">
+                @Html.DisplayFor(model => model.SeedSource)
+                @if (!string.IsNullOrEmpty(Model.SeedSource))
+                {
+                    <a asp-action="ViewPhoto" asp-route-id=@Model.SeedId><i class="fas fa-file-image fa-2xl input-group-addon"></i></a>
+                }
+            </dd>
+
+            <dt class = "col-sm-2">
+                @Html.DisplayNameFor(model => model.SeedSeedsQty)
+            </dt>
+            <dd class = "col-sm-10">
+                @Html.DisplayFor(model => model.SeedSeedsQty)
+            </dd>
+        }
+        else
+        {
+             @if (!string.IsNullOrEmpty(Model.SeedSource))
+             {
+                <dt class = "col-sm-2">
+                    @Html.DisplayNameFor(model => model.SeedSource)
+                </dt> 
+                <dd class = "col-sm-10">
+                    <a asp-action="ViewPhoto" asp-route-id=@Model.SeedId><i class="fas fa-file-image fa-2xl input-group-addon" style="margin:5px;vertical-align:bottom"></i></a>
+                </dd>
+             }
+        }
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.SeedYear)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.SeedYear)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.SeedCatalogNum)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.SeedCatalogNum)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.SeedLastSowedYear)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.SeedLastSowedYear)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.SeedAvailable)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.SeedAvailable)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.SeedRating)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.SeedRating)
+        </dd>
+    </dl>
+</div>
+<div>
+    @if(signInManager.IsSignedIn(User) && (User.IsInRole("Administrator") || User.IsInRole("SuperAdmin") || User.IsInRole("Manager")))
+    {
+        <a asp-action="Edit" asp-route-id="@Model.SeedId"><i class="fas fa-edit fa-2xl"></i></a>
+        <a asp-action="CatalogPages"><i class="fa-solid fa-arrow-left-long fa-2xl"></i></a>
+    }
+    else
+    {
+        <a asp-action="CatalogPages"><i class="fa-solid fa-arrow-left-long fa-2xl"></i></a>
+    }
+</div>

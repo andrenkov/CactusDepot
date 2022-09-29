@@ -1,0 +1,57 @@
+﻿@model CactusDepot.Shared.Models.Seeds.SeedPicViewModel
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> signInManager;
+
+@{
+    ViewBag.Title = "View parent photo";
+}
+
+<div>
+    <h4>Parent picture</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.SeedName)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.SeedName)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.CatalogNum)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.CatalogNum)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.SeedsPhotoData)
+        </dt>
+        <dd class = "col-sm-10">
+            <img src=@Model.SeedsPhotoData alt="Parent picture" style="height:300px;width:400px;"  asp-append-version="true"/>
+        </dd>
+    </dl>
+</div>
+
+@*<div>
+    <img src=@Model.SeedsPhotoData alt="Parent picture" style="height:300px;width:400px;"  asp-append-version="true"/>
+</div>*@
+
+<div>
+    <form asp-controller="Seeds" asp-action="DeletePhoto" asp-route-id=@Model.SeedId >
+        @*<input type="hidden" asp-for="SeedId" />*@
+         @if (signInManager.IsSignedIn(User) && (User.IsInRole("Administrator") || User.IsInRole("SuperAdmin") || User.IsInRole("Manager")))
+         {
+            <a asp-action="Edit" asp-route-id=@Model.SeedId><i class="fa-solid fa-arrow-left-long fa-2xl" style="margin:5px"></i></a>
+            <input type="submit" value="Delete" class="btn btn-danger" onclick="return confirm('are you sure to delete this image?')" />
+         }
+         else
+         {
+             <a asp-action="Details" asp-route-id=@Model.SeedId><i class="fa-solid fa-arrow-left-long fa-2xl" style="margin:5px"></i></a>
+         }
+
+        @*<input type="submit" asp-route-id=@Model.SeedId /> <i class="fa-solid fa-trash-can fa-2xl" style="margin:5px"></i>*@
+    </form>
+
+    @*<a asp-action="DeletePhoto" asp-route-id="@Model.SeedId"><i class="fa-solid fa-trash-can fa-2xl" style="margin:5px"></i></a>*@
+</div>
+
+

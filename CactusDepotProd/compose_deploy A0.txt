@@ -1,0 +1,105 @@
+﻿version: '3.4'
+
+volumes:
+  datafiles:
+  datafilesseeds:
+  datafilesadmin:
+
+services:
+  mysqldbadmin:
+    image: mysql
+    container_name: admindbsrv
+    cap_add:
+      - SYS_NICE  # CAP_SYS_NICE
+    security_opt:
+      - seccomp:unconfined
+    ports:
+      - "4000:3306"
+    expose:
+      - "4000"
+    volumes:
+      - datafilesadmin:/var/lib/mysql
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "25m"
+        max-file: "2"
+    restart: always
+    environment: 
+      MYSQL_ROOT_PASSWORD: C@tal0g2022A
+      MYSQL_USER: catalogadmin
+      MYSQL_PASSWORD: C@tal0g2022A
+      MYSQL_DATABASE: admindb
+    networks:
+      - cactusdepotnet
+
+  mysqldbseeds:
+    image: mysql
+    container_name: seedsdbsrv
+    cap_add:
+      - SYS_NICE  # CAP_SYS_NICE
+    security_opt:
+      - seccomp:unconfined
+    ports:
+      - "5000:3306"
+    expose:
+      - "5000"
+    volumes:
+      - datafilesseeds:/var/lib/mysql
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "25m"
+        max-file: "2"
+    restart: always
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      MYSQL_ROOT_PASSWORD: C@tal0g2022A
+      MYSQL_USER: catalogadmin
+      MYSQL_PASSWORD: C@tal0g2022A
+      MYSQL_DATABASE: seedsdepot
+    networks:
+      - cactusdepotnet
+
+  cactusdepot.seeds:
+    image: andrenkov/cactusdepotseeds:latest
+    container_name: cactusdepotseeds
+    depends_on: 
+      - mysqldbadmin
+      - mysqldbseeds
+    ports:
+      - "9091:9091"
+    expose:
+      - "9091"
+    restart: always
+    volumes:
+      - datafiles:/var/lib/cactusdepotseeds
+    #entrypoint: 
+    #  - -d
+    #  - -p 9091:80"
+    logging:
+      drive6r: "json-file"
+      options:
+        max-size: "25m"
+        max-file: "2"
+    environment: 
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:9091
+      - DBHOSTADMIN=host.docker.internal
+      - DBPORTADMIN=4000
+      - MYSQLADMIN_PASSWORD=C@tal0g2022A
+      - MYSQLADMIN_USER=catalogadmin
+      - MYSQLADMIN_DATABASE=admindb
+      - ConnectionStringADMIN=server=host.docker.internal;port=4000;protocol=tcp;user=catalogadmin;password=C@tal0g2022A;database=admindb
+      - DBHOSTSEEDS=host.docker.internal
+      - DBPORTSEEDS=5000
+      - MYSQLSEEDS_PASSWORD=C@tal0g2022A
+      - MYSQLSEEDS_USER=catalogadmin
+      - MYSQLSEEDS_DATABASE=seedsdepot
+      - ConnectionStringSEEDS=server=host.docker.internal;port=5000;protocol=tcp;user=catalogadmin;password=C@tal0g2022A;database=seedsdepot
+    networks:
+      - cactusdepotnet
+
+networks:
+  cactusdepotnet:
+    driver: bridge

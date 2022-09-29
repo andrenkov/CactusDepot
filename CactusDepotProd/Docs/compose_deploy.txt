@@ -1,0 +1,134 @@
+﻿sudo nano compose.yaml
+sudo docker-compose down
+!!! clean volumes add --remove-orphans
+sudo docker-compose down -v --remove-orphans
+sudo docker-compose up -d
+sudo docker ps
+sudo docker logs --tail 50 --follow --timestamps cactusdepotseeds
+
+sudo docker image ls
+sudo docker image rm 37c2eb425d7a -f
+sudo docker image rm andrenkov/multicontsimpledb:latest -f
+sudo docker image rm andrenkov/cactusdepotseeds:latest -f
+sudo docker image prune
+
+sudo ufw status
+sudo ufw allow 9091/tcp
+
+sudo netstat -tulpn
+	
+check container port 
+sudo docker port cactusdepotseeds 9091/tcp --> 0.0.0.0:9091
+
+sudo curl localhost:9091
+###############################
+
+https://stackoverflow.com/questions/41984399/denied-requested-access-to-the-resource-is-denied-docker
+You have to tag your image before pushing.
+
+1.	docker commit 38ebcc37265c admindbmysql – make an image from a container. 38ebcc37265c is the container Id.
+2.	docker tag admindbmysql andrenkov/initadmindb:latest
+3.	docker push andrenkov/initadmindb
+
+docker pull andrenkov/initseedsdepot_compose
+
+Another scenario:
+
+    docker login
+To tag your image to docker hub repository
+    docker tag 95f18417f32f andrenkov/cactusdepotseeds
+Publish your image to docker hub
+    docker push andrenkov/cactusdepotseeds
+
+
+Deploying 
+
+1. Create new file on the remote docker host (for eample, /var/temp/compose.yml).
+2. Supported filenames: docker-compose.yml, docker-compose.yaml, compose.yml, compose.yaml
+3. Copy-paste the yaml file content make sure that image names in the file updated and are corrrect:
+4. building the services
+    sudo docker-compose up -d 
+5. Check if new containers are running:  
+    sudo docker container ls
+7. Clean up containers
+    sudo docker-compose down -v --remove-orphans
+8. Docker logs:
+    sudo docker logs --tail 50 --follow --timestamps cactusdepotseeds
+
+
+Connect to http://172.18.0.1:9091/ (docker http host external ip)
+
+
+The following needed to enable listning ports othewr than 80 on the Host!!!!!!!!!!!!!!!!!!!!!!
+1. appsettings.json:
+
+  "Kestrel": {
+    "EndPoints": {
+      "Https": {
+        "Url": "https://+:5001"
+      },
+      "Http": {
+        "Url": "http://+:8080"
+      }
+    }
+
+2. Program.cs - requires the SSL Cert on the server!
+
+#region Listen Port
+builder.WebHost.ConfigureKestrel(serverOptions =>
+{
+    serverOptions.ListenAnyIP(443, listenOptions =>
+    {
+        listenOptions.UseHttps("9090");
+    });
+    serverOptions.ListenAnyIP(80); // NOTE: optionally listen on port 80, too
+});
+// NOTE: optionally, use HTTPS redirection
+builder.Services.AddHttpsRedirection(options =>
+{
+    options.RedirectStatusCode = (int)System.Net.HttpStatusCode.PermanentRedirect; // CAN ALSO USE System.Net.HttpStatusCode.TemporaryRedirect
+    options.HttpsPort = 443;
+});
+#endregion
+
+
+###########################################
+Run containers commands
+###########################################
+cactusdepotseeds container (no -e ASPNETCORE_URLS=http://+:9091;https://+:9090):
+sudo docker run -it --name cactusdepotseeds -d -p 9091:80 -e ASPNETCORE_ENVIRONMENT=Development -e DBHOSTADMIN=host.docker.internal -e DBPORTADMIN=4000 -e MYSQLADMIN_PASSWORD=C@tal0g2022A -e MYSQLADMIN_USER=catalogadmin -e MYSQLADMIN_DATABASE=admindb -e ConnectionStringADMIN=server=host.docker.internal;port=4000;protocol=tcp;user=catalogadmin;password=C@tal0g2022A;database=admindb -e DBHOSTSEEDS=host.docker.internal -e DBPORTSEEDS=5000 -e MYSQLSEEDS_PASSWORD=C@tal0g2022A -e MYSQLSEEDS_USER=catalogadmin -e MYSQLSEEDS_DATABASE=seedsdepot -e ConnectionStringSEEDS=server=host.docker.internal;port=5000;protocol=tcp;user=catalogadmin;password=C@tal0g2022A;database=seedsdepot --network-alias=cactusdepotseeds --network=cactusdepotnet andrenkov/cactusdepotseeds
+no conn string
+sudo docker run -it --name cactusdepotseeds -d -p 9091:80 -e ASPNETCORE_ENVIRONMENT=Development -e DBHOSTADMIN=host.docker.internal -e DBPORTADMIN=4000 -e MYSQLADMIN_PASSWORD=C@tal0g2022A -e MYSQLADMIN_USER=catalogadmin -e MYSQLADMIN_DATABASE=admindb -e DBHOSTSEEDS=host.docker.internal -e DBPORTSEEDS=5000 -e MYSQLSEEDS_PASSWORD=C@tal0g2022A -e MYSQLSEEDS_USER=catalogadmin -e MYSQLSEEDS_DATABASE=seedsdepot --network-alias=cactusdepotseeds --network=cactusdepotnet andrenkov/cactusdepotseeds:latest
+sudo docker run -it --name cactusdepotseeds -d -p 9091:80 -e ASPNETCORE_ENVIRONMENT=Development -e DBHOSTADMIN=localhost -e DBPORTADMIN=4000 -e MYSQLADMIN_PASSWORD=C@tal0g2022A -e MYSQLADMIN_USER=catalogadmin -e MYSQLADMIN_DATABASE=admindb -e DBHOSTSEEDS=localhost -e DBPORTSEEDS=5000 -e MYSQLSEEDS_PASSWORD=C@tal0g2022A -e MYSQLSEEDS_USER=catalogadmin -e MYSQLSEEDS_DATABASE=seedsdepot andrenkov/cactusdepotseeds
+
+create network command:
+sudo docker network create --driver bridge cactusdepotnet
+
+###########################################
+Docker logs
+###########################################
+
+sudo docker logs 0fcfc6b12bb9 --tail 50 -f -t
+sudo docker logs b9bdae6deb42 --tail 50 -f -t
+
+run docker info
+run docker volume create --name test 
+run docker volume inspect test
+
+see where it is mounted:
+"Mountpoint": "/var/snap/docker/common/var-lib-docker/volumes/logtest/_data"
+
+see more at https://sematext.com/blog/docker-logs-location/
+
+IP tables add:
+    sudo iptables -A INPUT -p tcp --dport 9091 -j ACCEPT
+    sudo iptables -A INPUT -p udp --dport 9091 -j ACCEPT
+
+IP table check:
+    sudo iptables -L -n
+
+or to shoiw leastening ports:
+    sudo netstat -tulpn
+
+Or use curl:
+    url localhost:9091

@@ -1,0 +1,13 @@
+{
+  "version": 2,
+  "dgSpecHash": "6uVqJGf6+MZ9keFL4V7rZyQm9AvEdwPBhzyDgsMp0zJ3FOSMDmc8bXMNlQVk4oIhS4u/dcyetYyOplmUX2cYsw==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\Vladimir\\source\\repos\\CactusDepot\\Production\\CactusDepotProd\\CactusDepot.Common.ImgMngLib\\CactusDepot.Common.ImgMngLib.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Vladimir\\.nuget\\packages\\microsoft.netcore.platforms\\5.0.0\\microsoft.netcore.platforms.5.0.0.nupkg.sha512",
+    "C:\\Users\\Vladimir\\.nuget\\packages\\sixlabors.imagesharp\\2.1.3\\sixlabors.imagesharp.2.1.3.nupkg.sha512",
+    "C:\\Users\\Vladimir\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\5.0.0\\system.runtime.compilerservices.unsafe.5.0.0.nupkg.sha512",
+    "C:\\Users\\Vladimir\\.nuget\\packages\\system.text.encoding.codepages\\5.0.0\\system.text.encoding.codepages.5.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}

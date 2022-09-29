@@ -1,0 +1,17 @@
+C:\Users\Vladimir\source\repos\CactusDepot\Production\CactusDepotProd\CactusDepot.Common.DataContext\bin\Release\net6.0\CactusDepot.Common.DataContext.deps.json
+C:\Users\Vladimir\source\repos\CactusDepot\Production\CactusDepotProd\CactusDepot.Common.DataContext\bin\Release\net6.0\CactusDepot.Common.DataContext.runtimeconfig.json
+C:\Users\Vladimir\source\repos\CactusDepot\Production\CactusDepotProd\CactusDepot.Common.DataContext\bin\Release\net6.0\CactusDepot.Common.DataContext.dll
+C:\Users\Vladimir\source\repos\CactusDepot\Production\CactusDepotProd\CactusDepot.Common.DataContext\bin\Release\net6.0\CactusDepot.Common.DataContext.pdb
+C:\Users\Vladimir\source\repos\CactusDepot\Production\CactusDepotProd\CactusDepot.Common.DataContext\bin\Release\net6.0\CactusDepot.Common.Models.dll
+C:\Users\Vladimir\source\repos\CactusDepot\Production\CactusDepotProd\CactusDepot.Common.DataContext\bin\Release\net6.0\CactusDepot.Common.Models.pdb
+C:\Users\Vladimir\source\repos\CactusDepot\Production\CactusDepotProd\CactusDepot.Common.DataContext\obj\Release\net6.0\CactusDepot.Common.DataContext.csproj.AssemblyReference.cache
+C:\Users\Vladimir\source\repos\CactusDepot\Production\CactusDepotProd\CactusDepot.Common.DataContext\obj\Release\net6.0\CactusDepot.Common.DataContext.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Vladimir\source\repos\CactusDepot\Production\CactusDepotProd\CactusDepot.Common.DataContext\obj\Release\net6.0\CactusDepot.Common.DataContext.AssemblyInfoInputs.cache
+C:\Users\Vladimir\source\repos\CactusDepot\Production\CactusDepotProd\CactusDepot.Common.DataContext\obj\Release\net6.0\CactusDepot.Common.DataContext.AssemblyInfo.cs
+C:\Users\Vladimir\source\repos\CactusDepot\Production\CactusDepotProd\CactusDepot.Common.DataContext\obj\Release\net6.0\CactusDepot.Common.DataContext.csproj.CoreCompileInputs.cache
+C:\Users\Vladimir\source\repos\CactusDepot\Production\CactusDepotProd\CactusDepot.Common.DataContext\obj\Release\net6.0\CactusDepot.Common.DataContext.csproj.CopyComplete
+C:\Users\Vladimir\source\repos\CactusDepot\Production\CactusDepotProd\CactusDepot.Common.DataContext\obj\Release\net6.0\CactusDepot.Common.DataContext.dll
+C:\Users\Vladimir\source\repos\CactusDepot\Production\CactusDepotProd\CactusDepot.Common.DataContext\obj\Release\net6.0\refint\CactusDepot.Common.DataContext.dll
+C:\Users\Vladimir\source\repos\CactusDepot\Production\CactusDepotProd\CactusDepot.Common.DataContext\obj\Release\net6.0\CactusDepot.Common.DataContext.pdb
+C:\Users\Vladimir\source\repos\CactusDepot\Production\CactusDepotProd\CactusDepot.Common.DataContext\obj\Release\net6.0\CactusDepot.Common.DataContext.genruntimeconfig.cache
+C:\Users\Vladimir\source\repos\CactusDepot\Production\CactusDepotProd\CactusDepot.Common.DataContext\obj\Release\net6.0\ref\CactusDepot.Common.DataContext.dll

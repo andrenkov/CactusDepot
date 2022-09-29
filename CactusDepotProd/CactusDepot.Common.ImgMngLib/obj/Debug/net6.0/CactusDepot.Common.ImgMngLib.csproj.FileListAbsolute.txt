@@ -1,0 +1,12 @@
+C:\Users\Vladimir\source\repos\CactusDepot\Production\CactusDepotProd\CactusDepot.Common.ImgMngLib\obj\Debug\net6.0\CactusDepot.Common.ImgMngLib.csproj.AssemblyReference.cache
+C:\Users\Vladimir\source\repos\CactusDepot\Production\CactusDepotProd\CactusDepot.Common.ImgMngLib\obj\Debug\net6.0\CactusDepot.Common.ImgMngLib.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Vladimir\source\repos\CactusDepot\Production\CactusDepotProd\CactusDepot.Common.ImgMngLib\obj\Debug\net6.0\CactusDepot.Common.ImgMngLib.AssemblyInfoInputs.cache
+C:\Users\Vladimir\source\repos\CactusDepot\Production\CactusDepotProd\CactusDepot.Common.ImgMngLib\obj\Debug\net6.0\CactusDepot.Common.ImgMngLib.AssemblyInfo.cs
+C:\Users\Vladimir\source\repos\CactusDepot\Production\CactusDepotProd\CactusDepot.Common.ImgMngLib\obj\Debug\net6.0\CactusDepot.Common.ImgMngLib.csproj.CoreCompileInputs.cache
+C:\Users\Vladimir\source\repos\CactusDepot\Production\CactusDepotProd\CactusDepot.Common.ImgMngLib\bin\Debug\net6.0\CactusDepot.Common.ImgMngLib.deps.json
+C:\Users\Vladimir\source\repos\CactusDepot\Production\CactusDepotProd\CactusDepot.Common.ImgMngLib\bin\Debug\net6.0\CactusDepot.Common.ImgMngLib.dll
+C:\Users\Vladimir\source\repos\CactusDepot\Production\CactusDepotProd\CactusDepot.Common.ImgMngLib\bin\Debug\net6.0\CactusDepot.Common.ImgMngLib.pdb
+C:\Users\Vladimir\source\repos\CactusDepot\Production\CactusDepotProd\CactusDepot.Common.ImgMngLib\obj\Debug\net6.0\CactusDepot.Common.ImgMngLib.dll
+C:\Users\Vladimir\source\repos\CactusDepot\Production\CactusDepotProd\CactusDepot.Common.ImgMngLib\obj\Debug\net6.0\refint\CactusDepot.Common.ImgMngLib.dll
+C:\Users\Vladimir\source\repos\CactusDepot\Production\CactusDepotProd\CactusDepot.Common.ImgMngLib\obj\Debug\net6.0\CactusDepot.Common.ImgMngLib.pdb
+C:\Users\Vladimir\source\repos\CactusDepot\Production\CactusDepotProd\CactusDepot.Common.ImgMngLib\obj\Debug\net6.0\ref\CactusDepot.Common.ImgMngLib.dll

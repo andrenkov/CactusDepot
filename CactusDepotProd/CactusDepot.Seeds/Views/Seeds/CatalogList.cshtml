@@ -1,0 +1,129 @@
+﻿@model IEnumerable<CactusDepot.Shared.Models.Seeds.CactusSeed>
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> signInManager;
+
+@{
+    ViewData["Title"] = "Catalog list";
+}
+
+<h1>Catalog list</h1>
+
+<hr />
+
+<dl class="row">
+    <dt class="col-sm-2">
+        <label>Total seeds</label> 
+    </dt>
+    <dd class="col-sm-10">
+        @Model.Count()
+    </dd>
+@*    <dt class="col-sm-2">
+        <label>Counted on</label> 
+    </dt>
+    <dd class="col-sm-10">
+        @((DateTime.Now - TimeSpan.FromDays(1)).ToShortDateString())
+    </dd>*@
+</dl>
+
+<hr />
+
+@*Search by Name*@
+<form asp-controller="seeds" asp-action="CatalogList">
+    <dl class="row">
+        <dt class="col-sm-2">
+            <label>Species</label> 
+        </dt>
+        <dd class="col-sm-10">
+            <input type="text" name="SearchString" />
+        </dd>
+
+        <dt class="col-sm-2">
+        </dt>
+        <dd class="col-sm-10">
+            <input type="submit" value="Filter" />
+        </dd>
+    </dl>
+</form>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.SeedName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SeedYear)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SeedCollectedDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Parent1CatalogNum)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SeedSeedsQty)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SeedRating)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.SeedAvailable)
+            </th>
+            <th></th>
+            @if(signInManager.IsSignedIn(User) && (User.IsInRole("Administrator") || User.IsInRole("SuperAdmin") || User.IsInRole("Manager")))
+            {
+                <th></th>
+                <th></th>
+            }
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            @*use DisplayFor only when there’s a reason for you to use it. Simple @item.... will be faster than DispalyFor()*@
+            <tr>
+                <td>
+                    @if (item.SeedName.Length > 52)
+                    {
+                         item.SeedName = item.SeedName.Substring(0, 50) + "...";
+                    }
+                    @item.SeedName
+                </td>
+                <td>
+                    @item.SeedYear
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SeedCollectedDate)
+                </td>
+                <td>
+                    @item.Parent1CatalogNum
+                </td>
+                <td>
+                    @item.SeedSeedsQty
+                </td>
+                <td>
+                    @item.SeedRating
+                </td>
+                <td class="cbxgrid"> @*added class name for the css to apply*@
+                    @Html.DisplayFor(modelItem => item.SeedAvailable)
+                </td>
+                    <td>
+                        <a asp-action="Details" asp-route-id="@item.SeedId"><i class="fa-solid fa-circle-info"></i></a>
+                    </td>
+                     @if(signInManager.IsSignedIn(User) && (User.IsInRole("Administrator") || User.IsInRole("SuperAdmin") || User.IsInRole("Manager")))
+                        {
+                            <td>
+                                <a asp-action="Edit" asp-route-id="@item.SeedId"><i class="fas fa-edit"></i></a> 
+                                @*<a asp-action="Details" asp-route-id="@item.SeedId"><i class="fa-solid fa-circle-info"></i></a>*@
+                                <a asp-action="Delete" asp-route-id="@item.SeedId"><i class="fas fa-trash"></i></a>
+                            </td>
+                        }
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div>
+    <a asp-action="CatalogPages"><i class="fa-solid fa-arrow-left-long fa-2xl"></i></a>
+</div>

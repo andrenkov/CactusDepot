@@ -1,0 +1,6 @@
+https://stackoverflow.com/questions/44508456/how-to-persist-data-in-a-docker-net-core-web-app
+https://www.corstianboerman.com/blog/2021-01-31/accessing-the-file-system-with-asp-net-core-and-docker
+https://blog.container-solutions.com/understanding-volumes-docker
+
+Volume in yaml file suppose to start from WORKDIR /app from the Docker file like:
+- datafiles:/app/Db

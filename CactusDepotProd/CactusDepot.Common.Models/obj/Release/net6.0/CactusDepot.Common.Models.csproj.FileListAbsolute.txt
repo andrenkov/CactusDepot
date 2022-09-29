@@ -1,0 +1,14 @@
+C:\Users\Vladimir\source\repos\CactusDepot\Production\CactusDepotProd\CactusDepot.Common.Models\bin\Release\net6.0\CactusDepot.Common.Models.deps.json
+C:\Users\Vladimir\source\repos\CactusDepot\Production\CactusDepotProd\CactusDepot.Common.Models\bin\Release\net6.0\CactusDepot.Common.Models.runtimeconfig.json
+C:\Users\Vladimir\source\repos\CactusDepot\Production\CactusDepotProd\CactusDepot.Common.Models\bin\Release\net6.0\CactusDepot.Common.Models.dll
+C:\Users\Vladimir\source\repos\CactusDepot\Production\CactusDepotProd\CactusDepot.Common.Models\bin\Release\net6.0\CactusDepot.Common.Models.pdb
+C:\Users\Vladimir\source\repos\CactusDepot\Production\CactusDepotProd\CactusDepot.Common.Models\obj\Release\net6.0\CactusDepot.Common.Models.csproj.AssemblyReference.cache
+C:\Users\Vladimir\source\repos\CactusDepot\Production\CactusDepotProd\CactusDepot.Common.Models\obj\Release\net6.0\CactusDepot.Common.Models.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Vladimir\source\repos\CactusDepot\Production\CactusDepotProd\CactusDepot.Common.Models\obj\Release\net6.0\CactusDepot.Common.Models.AssemblyInfoInputs.cache
+C:\Users\Vladimir\source\repos\CactusDepot\Production\CactusDepotProd\CactusDepot.Common.Models\obj\Release\net6.0\CactusDepot.Common.Models.AssemblyInfo.cs
+C:\Users\Vladimir\source\repos\CactusDepot\Production\CactusDepotProd\CactusDepot.Common.Models\obj\Release\net6.0\CactusDepot.Common.Models.csproj.CoreCompileInputs.cache
+C:\Users\Vladimir\source\repos\CactusDepot\Production\CactusDepotProd\CactusDepot.Common.Models\obj\Release\net6.0\CactusDepot.Common.Models.dll
+C:\Users\Vladimir\source\repos\CactusDepot\Production\CactusDepotProd\CactusDepot.Common.Models\obj\Release\net6.0\refint\CactusDepot.Common.Models.dll
+C:\Users\Vladimir\source\repos\CactusDepot\Production\CactusDepotProd\CactusDepot.Common.Models\obj\Release\net6.0\CactusDepot.Common.Models.pdb
+C:\Users\Vladimir\source\repos\CactusDepot\Production\CactusDepotProd\CactusDepot.Common.Models\obj\Release\net6.0\CactusDepot.Common.Models.genruntimeconfig.cache
+C:\Users\Vladimir\source\repos\CactusDepot\Production\CactusDepotProd\CactusDepot.Common.Models\obj\Release\net6.0\ref\CactusDepot.Common.Models.dll

@@ -1,0 +1,99 @@
+﻿@model CactusDepot.Shared.Models.Seeds.CactusSeed
+
+@{
+    ViewBag.Title = "Edit Seeds";
+}
+
+<h1>Edit</h1>
+
+<h4>Seeds</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="SeedId" />
+            <div class="form-group">
+                <label asp-for="SeedName" class="control-label"></label>
+                <input asp-for="SeedName" class="form-control" />
+                <span asp-validation-for="SeedName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Parent1CatalogNum" class="control-label"></label>
+                <input asp-for="Parent1CatalogNum" class="form-control" />
+                <span asp-validation-for="Parent1CatalogNum" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Parent2CatalogNum" class="control-label"></label>
+                <input asp-for="Parent2CatalogNum" class="form-control" />
+                <span asp-validation-for="Parent2CatalogNum" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SeedNote" class="control-label"></label>
+                <input asp-for="SeedNote" class="form-control" />
+                <span asp-validation-for="SeedNote" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SeedCollectedDate" class="control-label"></label>
+                <input asp-for="SeedCollectedDate" class="form-control" />
+                <span asp-validation-for="SeedCollectedDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SeedSource" class="control-label"></label>
+                <div class="input-group">
+                    <input asp-for="SeedSource" class="form-control" placeholder="Image file source"/>
+                    <a asp-action="EditPhoto" asp-route-id=@Model.SeedId><input type="button" value="File..." class="btn btn-primary"></a>
+                    @if (!string.IsNullOrEmpty(Model.SeedSource))
+                    {
+                        <a asp-action="ViewPhoto" asp-route-id=@Model.SeedId><i class="fas fa-file-image fa-2xl input-group-addon" style="margin:5px;vertical-align:bottom"></i></a>
+                    }
+                </div>
+                <span asp-validation-for="SeedSource" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SeedSeedsQty" class="control-label"></label>
+                <input asp-for="SeedSeedsQty" class="form-control" />
+                <span asp-validation-for="SeedSeedsQty" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SeedYear" class="control-label"></label>
+                <input asp-for="SeedYear" class="form-control" />
+                <span asp-validation-for="SeedYear" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SeedCatalogNum" class="control-label"></label>
+                <input asp-for="SeedCatalogNum" class="form-control" />
+                <span asp-validation-for="SeedCatalogNum" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SeedLastSowedYear" class="control-label"></label>
+                <input asp-for="SeedLastSowedYear" class="form-control" />
+                <span asp-validation-for="SeedLastSowedYear" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SeedAvailable" class="control-label"></label>
+                @*<input asp-for="SeedAvailable" class="form-control" />*@
+                @*@Html.CheckBoxFor(m => m.SeedAvailable.GetValueOrDefault(false))*@
+                <input class="checkboxAval" asp-for="SeedAvailable" />@*added class name for the css to apply*@
+                <span asp-validation-for="SeedAvailable" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SeedRating" class="control-label"></label>
+                <input asp-for="SeedRating" class="form-control" />
+                <span asp-validation-for="SeedRating" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="CatalogPages"><i class="fa-solid fa-arrow-left-long fa-2xl"></i></a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,100 @@
+﻿@model CactusDepot.Shared.Models.Seeds.CactusSeed
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Seed</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="SeedName" class="control-label"></label>
+                <input asp-for="SeedName" class="form-control" />
+                <span asp-validation-for="SeedName" class="text-danger"></span>
+                @*or you can write as below*@
+                @*
+                <div class="control-label">
+                  @Html.LabelFor(model => model.SeedName)
+                </div>
+                <div class="editor-field">
+                  @Html.EditorFor(model => model.SeedName)
+                  @Html.ValidationMessageFor(model => model.SeedName)
+                </div>
+                *@
+                
+            </div>
+            <div class="form-group">
+                <label asp-for="Parent1CatalogNum" class="control-label"></label>
+                <input asp-for="Parent1CatalogNum" class="form-control" />
+                <span asp-validation-for="Parent1CatalogNum" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Parent2CatalogNum" class="control-label"></label>
+                <input asp-for="Parent2CatalogNum" class="form-control" />
+                <span asp-validation-for="Parent2CatalogNum" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SeedNote" class="control-label"></label>
+                <input asp-for="SeedNote" class="form-control" />
+                <span asp-validation-for="SeedNote" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SeedCollectedDate" class="control-label"></label>
+                <input asp-for="SeedCollectedDate" class="form-control" />
+                <span asp-validation-for="SeedCollectedDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SeedSource" class="control-label"></label>
+                <input asp-for="SeedSource" class="form-control" />
+                <span asp-validation-for="SeedSource" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SeedSeedsQty" class="control-label"></label>
+                <input asp-for="SeedSeedsQty" class="form-control" />
+                <span asp-validation-for="SeedSeedsQty" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SeedYear" class="control-label"></label>
+                <input asp-for="SeedYear" class="form-control" />
+                <span asp-validation-for="SeedYear" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SeedCatalogNum" class="control-label"></label>
+                <input asp-for="SeedCatalogNum" class="form-control" />
+                <span asp-validation-for="SeedCatalogNum" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SeedLastSowedYear" class="control-label"></label>
+                <input asp-for="SeedLastSowedYear" class="form-control" />
+                <span asp-validation-for="SeedLastSowedYear" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SeedAvailable" class="control-label"></label>
+                @*<input class="checkboxAval" asp-for="SeedAvailable" />*@
+                @Html.CheckBoxFor(model => model.SeedAvailable, new { @value = Model.SeedAvailable})
+                <span asp-validation-for="SeedAvailable" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SeedRating" class="control-label"></label>
+                <input asp-for="SeedRating" class="form-control" />
+                <span asp-validation-for="SeedRating" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="CatalogPages"><i class="fa-solid fa-arrow-left-long fa-2xl"></i></a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

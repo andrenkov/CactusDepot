@@ -1,0 +1,151 @@
+﻿@addTagHelper *, LazZiya.TagHelpers
+@model PagedResult<CactusDepot.Shared.Models.Seeds.CactusSeed>
+@using CactusDepot.Shared.Models.Seeds 
+@using Humanizer 
+@*just testing View DI type*@
+@inject  CactusDepot.Seeds.Controllers.SQLSeedsRepository seedsrepo
+
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> signInManager;
+
+@{
+    ViewBag.Title = "Catalog pages";
+}
+
+<hr />
+
+<dl class="row">
+    <dt class="col-sm-2">
+        <label>Total seeds</label> 
+    </dt>
+    <dd class="col-sm-10">
+        @await seedsrepo.CountSeeds()
+    </dd>
+@*    <dt class="col-sm-2">
+        <label>Counted on</label> 
+    </dt>
+    <dd class="col-sm-10">
+        @((DateTime.Now - TimeSpan.FromDays(1)).ToShortDateString())
+    </dd>*@
+</dl>
+
+<hr />
+
+@*Search by Name*@
+<form asp-controller="seeds" asp-action="CatalogList">
+    <dl class="row">
+        <dt class="col-sm-2">
+            <label>Species</label> 
+        </dt>
+        <dd class="col-sm-10">
+            <input type="text" name="SearchString" />
+        </dd>
+
+        <dt class="col-sm-2">
+        </dt>
+        <dd class="col-sm-10">
+            <input type="submit" value="Filter" />
+        </dd>
+    </dl>
+</form>
+
+@*Search by Year and Number*@
+<form asp-controller="seeds" asp-action="CatalogByYearNum">
+    <dl class="row">
+        <dt class="col-sm-2">
+            <label>Year</label> 
+        </dt>
+        <dd class="col-sm-10">
+            <input type="text" name="SearchYear" />
+        </dd>
+        <dt class="col-sm-2">
+            <label>Parent</label> 
+        </dt>
+        <dd class="col-sm-10">
+            <input type="text" name="SearchNum" />
+        </dd>
+        <dt class="col-sm-2">
+        </dt>
+        <dd class="col-sm-10">
+            <input type="submit" value="Search" />
+        </dd>
+    </dl>
+</form>
+
+@if (signInManager.IsSignedIn(User) && (User.IsInRole("Administrator") || User.IsInRole("SuperAdmin") || User.IsInRole("Manager")))
+{
+    <p>
+        <a asp-action="Create"><i class="fas fa-plus"><span> New</span></i></a>
+    </p>
+}
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.Results.First<CactusSeed>().SeedName)</th>
+                <th>@Html.DisplayNameFor(model => model.Results.First<CactusSeed>().SeedYear)</th>
+                <th>@Html.DisplayNameFor(model => model.Results.First<CactusSeed>().SeedCollectedDate)</th>
+                <th>@Html.DisplayNameFor(model => model.Results.First<CactusSeed>().Parent1CatalogNum)</th>
+                <th>@Html.DisplayNameFor(model => model.Results.First<CactusSeed>().SeedSeedsQty)</th>
+                <th>@Html.DisplayNameFor(model => model.Results.First<CactusSeed>().SeedRating)</th>
+                <th>@Html.DisplayNameFor(model => model.Results.First<CactusSeed>().SeedAvailable)</th>
+                <th></th>
+                @if(signInManager.IsSignedIn(User) && (User.IsInRole("Administrator") || User.IsInRole("SuperAdmin") || User.IsInRole("Manager")))
+                {
+                    <th></th>
+                    <th></th>
+                }
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var item in Model.Results)
+            {
+                <tr>
+                    <td>
+                        @if (item.SeedName.Length > 52)
+                        {
+                            item.SeedName = item.SeedName.Substring(0, 50) + "...";
+                        }
+                        @Html.DisplayFor(modelItem => item.SeedName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.SeedYear)
+                    </td>
+                    <td>
+                        @*@item.SeedCollectedDate.Humanize()*@@* To show n days ago or x years ago etc.*@
+                        @Html.DisplayFor(modelItem => item.SeedCollectedDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Parent1CatalogNum)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.SeedSeedsQty)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.SeedRating)
+                    </td>
+                    <td class="cbxgrid">@*added class name for the css to apply*@
+                        @Html.DisplayFor(modelItem => item.SeedAvailable)
+                    </td>
+                    <td>
+                        <a asp-action="Details" asp-route-id="@item.SeedId"><i class="fa-solid fa-circle-info"></i></a>
+                    </td>
+                     @if(signInManager.IsSignedIn(User) && (User.IsInRole("Administrator") || User.IsInRole("SuperAdmin") || User.IsInRole("Manager")))
+                        {
+                            <td>
+                                <a asp-action="Edit" asp-route-id="@item.SeedId"><i class="fas fa-edit"></i></a> 
+                                @*<a asp-action="Details" asp-route-id="@item.SeedId"><i class="fa-solid fa-circle-info"></i></a>*@
+                                <a asp-action="Delete" asp-route-id="@item.SeedId"><i class="fas fa-trash"></i></a>
+                            </td>
+                        }
+                </tr>
+            }
+        </tbody>
+    </table>
+
+<paging page-no="@Model.CurrentPage"
+        page-size="@Model.PageSize"
+        total-records="@(Model.RowCount)">
+</paging>
+

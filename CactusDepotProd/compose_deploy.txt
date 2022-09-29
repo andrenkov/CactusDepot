@@ -1,0 +1,85 @@
+﻿version: '3.4'
+
+volumes:
+  datafiles:
+  datafilesseeds:
+  datafilesadmin:
+
+services:
+  mysqldbadmin:
+    image: mysql
+    container_name: mysqldbadmin
+    cap_add:
+      - SYS_NICE  # CAP_SYS_NICE
+    security_opt:
+      - seccomp:unconfined
+    ports:
+      - "4000:3306"
+    expose:
+      - "4000"
+    volumes:
+      - datafilesadmin:/var/lib/mysql
+    restart: on-failure:3
+    environment: 
+      MYSQL_ROOT_PASSWORD: C@tal0g2022A
+      MYSQL_USER: catalogadmin
+      MYSQL_PASSWORD: C@tal0g2022A
+      MYSQL_DATABASE: admindb
+    networks:
+      - cactusdepotnet
+
+  mysqldbseeds:
+    image: mysql
+    container_name: mysqldbseeds
+    cap_add:
+      - SYS_NICE  # CAP_SYS_NICE
+    security_opt:
+      - seccomp:unconfined
+    ports:
+      - "5000:3306"
+    expose:
+      - "5000"
+    volumes:
+      - datafilesseeds:/var/lib/mysql
+    restart: on-failure:3
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      MYSQL_ROOT_PASSWORD: C@tal0g2022A
+      MYSQL_USER: catalogadmin
+      MYSQL_PASSWORD: C@tal0g2022A
+      MYSQL_DATABASE: seedsdepot
+    networks:
+      - cactusdepotnet
+
+  cactusdepot.seeds:
+    image: andrenkov/cactusdepotseeds:latest
+    container_name: cactusdepotseeds
+    depends_on: 
+      - mysqldbadmin
+      - mysqldbseeds
+    ports:
+      - "9091:80"
+    expose:
+      - "9091"
+    restart: on-failure:3
+    tty: true
+    volumes:
+      - datafiles:/var/lib/cactusdepotseeds
+    environment: 
+      - ASPNETCORE_ENVIRONMENT=Development
+      - DBHOSTADMIN=mysqldbadmin
+      - DBPORTADMIN=4000
+      - MYSQLADMIN_PASSWORD=C@tal0g2022A
+      - MYSQLADMIN_USER=catalogadmin
+      - MYSQLADMIN_DATABASE=admindb
+      - DBHOSTSEEDS=mysqldbseeds
+      - DBPORTSEEDS=5000
+      - MYSQLSEEDS_PASSWORD=C@tal0g2022A
+      - MYSQLSEEDS_USER=catalogadmin
+      - MYSQLSEEDS_DATABASE=seedsdepot
+    networks:
+      - cactusdepotnet
+
+networks:
+  cactusdepotnet:
+    driver: bridge

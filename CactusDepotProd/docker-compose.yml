@@ -1,0 +1,174 @@
+version: '3.4'
+
+volumes:
+  datafiles:
+  datafilesseeds:
+  datafilesadmin:
+
+services:
+  #1 - DataBase Service Admin
+  mysqldbadmin:
+    #Pull the latest mysql image
+    #image: mysql:8.0.29
+    #pull any latest
+    #pull any latest as : image: mysql:latest or as below
+    image: mysql
+    container_name: mysqldbadmin
+    hostname: mysqldbadminHost
+    #command: "--interactive-timeout=28800 --wait-timeout=28800"
+    #disabling the security profile to avoid "mbind: Operation not permitted"
+    cap_add:
+      - SYS_NICE  # CAP_SYS_NICE
+    #disabling the security profile to avoid "mbind: Operation not permitted"
+    security_opt:
+      - seccomp:unconfined
+    #Map port 4000 on the mysql container to port 3306 in the host
+    ports:
+      - "4000:3306"
+    expose:
+      - "4000"
+    #Specify where the persisted Data should be stored
+    #Datafiles should be stored at this path but that path is actually a reference path to somewhere in our computer that docker has access to 
+    volumes:
+      - datafilesadmin:/var/lib/mysql
+    #Docker compose global level logging
+    #logging: *default_logging
+    #logging:
+    #  driver: "json-file"
+    #  options:
+    #    max-size: "25m"
+    #    max-file: "2"
+
+    #Let EF to handle the Db objects!!!!!!!!!!!!!!!!!!!!!!
+    # SQL script to create a new Table or seed records to the database on initialization you could do it here
+    # Line below can be interpreted as copying the setup.sql file, located in sql-scripts folder,
+    #to the /docker-entrypoint-initdb.d/ folder located in the MySQL Docker container that we're using and name it (1.sql).
+    #By default, all scripts located in this folder will be automatically run during container startup.
+    #  - "~/sql-deploy-scripts/admin/initusers.sql:/docker-entrypoint-initdb.d/admintables.sql"
+
+    restart: unless-stopped
+    tty: true
+    command: "--interactive-timeout=28800 --wait-timeout=28800"
+    healthcheck:
+      test: ["CMD-SHELL", "mysql -u$$MYSQL_USER -p$$MYSQL_PASSWORD  -e 'select @@version;' admindb"]
+      start_period: 3s
+      interval: 3s
+      timeout: 3s
+      retries: 3
+    #Specify Environment Variables for mysql
+    #By default, the new user created will have admin rights to the database specified here.
+    environment: 
+      MYSQL_ROOT_PASSWORD: C@tal0g2022A
+      MYSQL_USER: catalogadmin
+      MYSQL_PASSWORD: C@tal0g2022A
+      MYSQL_DATABASE: admindb
+    networks:
+      - cactusdepotnet
+
+  #2 - DataBase Service Seeds
+  mysqldbseeds:
+    #Pull the latest mysql image
+    #image: mysql:8.0.29
+    #pull any latest
+    #pull any latest as : image: mysql:latest or as below
+    image: mysql
+    container_name: mysqldbseeds
+    hostname: mysqldbseedsHost
+    #command: "--interactive-timeout=28800 --wait-timeout=28800"
+    #disabling the security profile to avoid "mbind: Operation not permitted"
+    cap_add:
+      - SYS_NICE  # CAP_SYS_NICE
+    #disabling the security profile to avoid "mbind: Operation not permitted"
+    security_opt:
+      - seccomp:unconfined
+    #Map port 5000 on the mysql container to port 3306 in the host
+    ports:
+      - "5000:3306"
+    expose:
+      - "5000"
+    #Specify where the persisted Data should be stored
+    #Datafiles should be stored at this path but that path is actually a reference path to somewhere in our computer that docker has access to 
+    volumes:
+      - datafilesseeds:/var/lib/mysql
+    #logging:
+    #  driver: "json-file"
+    #  options:
+    #    max-size: "25m"
+    #    max-file: "2"
+
+    #Let EF to handle the Db objects!!!!!!!!!!!!!!!!!!!!!!
+    # SQL script to create a new Table or seed records to the database on initialization you could do it here
+    # Line below can be interpreted as copying the setup.sql file, located in sql-scripts folder,
+    #to the /docker-entrypoint-initdb.d/ folder located in the MySQL Docker container that we're using and name it (1.sql).
+    #By default, all scripts located in this folder will be automatically run during container startup.
+    #  - "~/sql-deploy-scripts/seeds/initseeds.sql:/docker-entrypoint-initdb.d/seedstables.sql"
+
+    restart: unless-stopped
+    tty: true
+    command: "--interactive-timeout=28800 --wait-timeout=28800"
+    healthcheck:
+      test: ["CMD-SHELL", "mysql -u$$MYSQL_USER -p$$MYSQL_PASSWORD  -e 'select @@version;' seedsdepot"]
+      start_period: 3s
+      interval: 3s
+      timeout: 3s
+      retries: 3
+    #Specify Environment Variables for mysql
+    #By default, the new user created will have admin rights to the database specified here.
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      MYSQL_ROOT_PASSWORD: C@tal0g2022A
+      MYSQL_USER: catalogadmin
+      MYSQL_PASSWORD: C@tal0g2022A
+      MYSQL_DATABASE: seedsdepot
+    networks:
+      - cactusdepotnet
+
+  #3 - Cactus Depot Seeds Service
+  cactusdepot.seeds:
+    image: ${DOCKER_REGISTRY-}cactusdepotseeds
+    build:
+      context: .
+      dockerfile: CactusDepot.Seeds/Dockerfile
+    container_name: cactusdepotseeds
+    hostname: cactusdepotseeds
+    depends_on: 
+      mysqldbadmin:
+        condition: service_healthy
+      mysqldbseeds:
+        condition: service_healthy
+    ports:
+      - "9091:80"
+    expose:
+      - "9091"
+    restart: unless-stopped
+    tty: true
+    healthcheck:
+      test: ["CMD-SHELL", "--fail http://localhost:9091/healthz || exit"]
+      start_period: 3s
+      interval: 3s
+      timeout: 3s
+      retries: 3
+    volumes:
+      #the /app below is the WORKDIR from the docker file
+      - datafiles:/app/Db
+    environment: 
+      - ASPNETCORE_ENVIRONMENT=Development
+      #MySql connection Admin
+      - DBHOSTADMIN=mysqldbadmin
+      - DBPORTADMIN=4000
+      - MYSQLADMIN_PASSWORD=C@tal0g2022A
+      - MYSQLADMIN_USER=catalogadmin
+      - MYSQLADMIN_DATABASE=admindb
+      #MySql connection Seeds
+      - DBHOSTSEEDS=mysqldbseeds
+      - DBPORTSEEDS=5000
+      - MYSQLSEEDS_PASSWORD=C@tal0g2022A
+      - MYSQLSEEDS_USER=catalogadmin
+      - MYSQLSEEDS_DATABASE=seedsdepot
+
+    networks:
+      - cactusdepotnet
+
+networks:
+  cactusdepotnet:
+    driver: bridge
