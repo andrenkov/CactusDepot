@@ -1,0 +1,14 @@
+{
+  "profiles": {
+    "CactusDepot.HostChecker": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "HOST_NAME": "http://avlad.no-ip.info:9091/Health",
+        "PULL_INTERVAL": "5"
+      }
+    },
+    "Docker": {
+      "commandName": "Docker"
+    }
+  }
+}

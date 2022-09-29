@@ -6,7 +6,8 @@ namespace CactusDepot.HostChecker
 	internal static class ApiCli
 	{
 		static readonly HttpClient client = new();
-		static async Task<string> GetHealthAsync(string path)
+
+        static async Task<string> GetHealthAsync(string path)
 		{
 			string health = "";
 			HttpResponseMessage response = await client.GetAsync(path);
@@ -17,13 +18,13 @@ namespace CactusDepot.HostChecker
 			return health;
 		}
 
-		public static async Task<bool> CheckHosts()
+		public static async Task<bool> CheckHosts(string path)
 		{
 			bool res = false;
 
 			try
 			{
-				string? rawResp = await GetHealthAsync("http://avlad.no-ip.info:9091/Health");
+				string? rawResp = await GetHealthAsync(path);
 				
 				if ((rawResp is not null) && (!string.IsNullOrEmpty(rawResp)))
 				{

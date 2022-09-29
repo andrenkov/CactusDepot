@@ -110,6 +110,24 @@ services:
     networks:
       - cactusdepotnet
 
+  #4 - Cactus Depot Service Health Check
+  cactusdepot.hostchecker:
+    image: ${DOCKER_REGISTRY-}cactusdepothostchecker
+    build:
+      context: .
+      dockerfile: CactusDepot.HostChecker/Dockerfile
+    container_name: hostchecker
+    hostname: hostchecker
+    restart: unless-stopped
+    tty: true
+    volumes:
+      - datafiles:/app/Db
+    environment: 
+      - HOST_NAME=http://avlad.no-ip.info:9091/Health
+      - PULL_INTERVAL=5
+    networks:
+      - cactusdepotnet
+
 networks:
   cactusdepotnet:
     driver: bridge
