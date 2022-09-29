@@ -18,11 +18,12 @@ Console.ReadKey();
 
 async Task TimerCallback()
 {
+    bool StatusOK;
     timer.Stop();
     try
     {
-        await ApiCli.CheckHosts();
-        SharedUtil.WriteLogToConsole("HostChecker", string.Format("runing: {0}", DateTime.Now.ToString()));
+        StatusOK = await ApiCli.CheckHosts();
+        SharedUtil.WriteLogToConsole("HostChecker", string.Format("runing: {0} status {1}", DateTime.Now.ToString(), StatusOK ? "Healthy" : "Unhealthy"));
     }
     finally
     {
